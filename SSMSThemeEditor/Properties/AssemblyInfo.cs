@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SSMSThemeEditor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Tim Cartwright")]
 [assembly: AssemblyProduct("SSMSThemeEditor")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
