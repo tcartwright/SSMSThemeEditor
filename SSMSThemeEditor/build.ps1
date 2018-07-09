@@ -4,7 +4,10 @@ try
     {
         install-module 'Invoke-MSBuild' -scope currentuser -confirm:$false
     }
-    Invoke-MSBuild -path (Join-Path $PSScriptRoot 'SSMSThemeEditor.sln')
+    
+    $slnPath = [io.path]::combine($PSScriptRoot, '..', 'SSMSThemeEditor.sln')
+
+    Invoke-MSBuild -path $slnPath
 }
 catch
 {
