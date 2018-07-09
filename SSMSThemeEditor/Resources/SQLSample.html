@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        body { font-family:Consolas; font-size:11pt; }
+        /*<<CSS>>*/
+    </style>
+</head>
+<body>
+<pre>
+    <span class="Keyword">USE</span> <span class="Identifier">AdventureWorks2012</span>;
+    <span class="Keyword">GO</span>
+
+    <span class="Comment">/*----------------------------------------------------------------------*/</span>
+    <span class="Comment">--The Production schema demos the Brace Matching (Rectangle)</span>
+    <span class="Keyword">SELECT</span> <span class="SQLString">'Total income is'</span><span class="Identifier"><span class="SQLOperator">, ((</span>OrderQty <span class="SQLOperator">*</span> UnitPrice<span class="SQLOperator">) * (</span></span><span class="Number">1.0</span> <span class="Identifier"><span class="SQLOperator">-</span> UnitPriceDiscount<span class="SQLOperator">)),</span> <span class="SQLString">' for '</span>,</span> 
+    <span class="Identifier">p<span class="SQLOperator">.</span>Name <span class="Keyword">AS</span> ProductName</span> 
+    <span class="Keyword">FROM</span> <span class="BraceMatchingRectangle">Production</span><span class="SQLOperator">.</span><span class="Identifier">Product <span class="Keyword">AS</span> p</span> 
+    <span class="SQLOperator">INNER JOIN</span> <span class="Identifier">Sales<span class="SQLOperator">.</span>SalesOrderDetail</span> <span class="Keyword">AS</span> <span class="Identifier">sod</span>
+    <span class="Keyword">ON</span> <span class="Identifier">p<span class="SQLOperator">.</span>ProductID <span class="SQLOperator">=</span> sod<span class="SQLOperator">.</span>ProductID</span>
+    <span class="Identifier">ORDER BY</span> <span class="Identifier">ProductName</span> <span class="Identifier">ASC</span>;
+    <span class="Keyword">GO</span>
+
+    <span class="Comment">/*----------------------------------------------------------------------*/</span>
+    <span class="Keyword">SELECT</span> <span class="SQLSystemFunction">SUM</span><span class="SQLOperator">(</span><span class="Identifier">p<span class="SQLOperator">.</span>ListPrice</span><span class="SQLOperator">)</span> <span class="Keyword">AS</span> <span class="Identifier">[ListPrice]</span>,
+    <span class="SQLSystemFunction">GETDATE<span class="SQLOperator">()</span></span> <span class="Keyword">AS</span> <span class="Identifier">[DT]</span>
+    <span class="Keyword">FROM</span> <span class="BraceMatchingRectangle">Production</span><span class="SQLOperator">.</span><span class="Identifier">Product</span> <span class="Keyword">AS</span> <span class="Identifier">p</span> 
+    <span class="Keyword">GO</span>
+
+    <span class="Comment">/*----------------------------------------------------------------------*/</span>
+    <span class="Keyword">exec</span> <span class="SQLStoredProcedure">sp_executesql</span> <span class="SQLString">N'SELECT TOP (10) * FROM sys.tables t'</span>
+    <span class="Keyword">GO</span>
+
+    <span class="Comment">/*----------------------------------------------------------------------*/</span>
+    <span class="Comment">--The SELECT TOP demos the FindHighlight</span>
+    <span class="MarkerFormatDefinitionFindHighlight">SELECT TOP</span> <span class="SQLOperator">(</span><span class="Number">10</span><span class="SQLOperator">)</span> * <span class="Keyword">FROM</span> <span class="SQLSystemTable">sys<span class="SQLOperator">.</span>tables</span> <span class="Identifier">t</span>
+    <span class="Keyword">GO</span>
+
+    <span class="Comment">/*----------------------------------------------------------------------*/</span>
+    <span class="Comment">--The parantheses highlighted here are for demoing the Brace Matching (Highlight)</span> 
+    <span class="Keyword">SELECT TOP</span> <span class="BraceMatchingHighlight">(</span><span class="Number">10</span><span class="BraceMatchingHighlight">)</span> * <span class="Keyword">FROM</span> <span class="SQLSystemTable">sys<span class="SQLOperator">.</span>dm_exec_requests</span> <span class="Identifier">der</span>
+    <span class="Keyword">GO</span>
+
+    <span class="Comment">/*----------------------------------------------------------------------*/</span>
+    <span class="XMLDocTag"><span class="XMLDelimiter">&lt;</span>?<span class="XMLName">xml</span> <span class="XMLAttributeName">version</span>=<span class="XMLAttributeQuotes">&quot;</span><span class="XMLAttributeValue">1.0</span><span class="XMLAttributeQuotes">&quot;</span> <span class="XMLAttributeName">encoding</span>=<span class="XMLAttributeQuotes">&quot;</span><span class="XMLAttributeValue">utf-8</span><span class="XMLAttributeQuotes">&quot;</span>?<span class="XMLDelimiter">&gt;</span></span>
+    <span class="XMLName"><span class="XMLDelimiter">&lt;</span>Stores<span class="XMLDelimiter">&gt;</span>
+        <span class="XMLDelimiter">&lt;</span>Store 
+                <span class="XMLAttributeName">BusinessEntityID</span>=<span class="XMLAttributeQuotes">&quot;</span><span class="XMLAttributeValue">292</span><span class="XMLAttributeQuotes">&quot;</span> 
+                <span class="XMLAttributeName">Name</span>=<span class="XMLAttributeQuotes">&quot;</span><span class="XMLAttributeValue">Next-Door Bike Store</span><span class="XMLAttributeQuotes">&quot;</span> 
+                <span class="XMLAttributeName">SalesPersonID</span>=<span class="XMLAttributeQuotes">&quot;</span><span class="XMLAttributeValue">279</span><span class="XMLAttributeQuotes">&quot;</span><span class="XMLDelimiter">&gt;</span>
+            <span class="XMLDelimiter">&lt;</span>Customers<span class="XMLDelimiter">&gt;</span>
+                <span class="XMLDelimiter">&lt;</span>Customer<span class="XMLDelimiter">&gt;</span>
+                    <span class="XMLDelimiter">&lt;</span>CustomerID<span class="XMLDelimiter">&gt;</span><span class="XMLText">585</span><span class="XMLDelimiter">&lt;</span>/CustomerID<span class="XMLDelimiter">&gt;</span>
+                    <span class="XMLDelimiter">&lt;</span>StoreID<span class="XMLDelimiter">&gt;</span><span class="XMLText">292</span><span class="XMLDelimiter">&lt;</span>/StoreID<span class="XMLDelimiter">&gt;</span>
+                    <span class="XMLDelimiter">&lt;</span>AccountNumber<span class="XMLDelimiter">&gt;</span><span class="XMLText">AW00000585</span><span class="XMLDelimiter">&lt;</span>/AccountNumber<span class="XMLDelimiter">&gt;</span>
+                <span class="XMLDelimiter">&lt;</span>/Customer<span class="XMLDelimiter">&gt;</span>
+                <span class="XMLDelimiter">&lt;</span>Customer<span class="XMLDelimiter">&gt;</span>
+                    <span class="XMLDelimiter">&lt;</span>CustomerID<span class="XMLDelimiter">&gt;</span><span class="XMLText">29484</span><span class="XMLDelimiter">&lt;</span>/CustomerID<span class="XMLDelimiter">&gt;</span>
+                    <span class="XMLDelimiter">&lt;</span>StoreID<span class="XMLDelimiter">&gt;</span><span class="XMLText">292</span><span class="XMLDelimiter">&lt;</span>/StoreID<span class="XMLDelimiter">&gt;</span>
+                    <span class="XMLDelimiter">&lt;</span>AccountNumber<span class="XMLDelimiter">&gt;</span><span class="XMLText">AW00029484</span><span class="XMLDelimiter">&lt;</span>/AccountNumber<span class="XMLDelimiter">&gt;</span>
+                <span class="XMLDelimiter">&lt;</span>/Customer<span class="XMLDelimiter">&gt;</span>
+            <span class="XMLDelimiter">&lt;</span>/Customers<span class="XMLDelimiter">&gt;</span>
+        <span class="XMLDelimiter">&lt;</span>/Store<span class="XMLDelimiter">&gt;</span>
+    <span class="XMLDelimiter">&lt;</span>/Stores<span class="XMLDelimiter">&gt;</span></span>
+</pre>
+</body>
+</html>
