@@ -12,7 +12,7 @@ More styles can be downloaded from https://studiostyl.es/
 
 ### Screenshot:
 
-![Example Screenshot](https://raw.githubusercontent.com/tcartwright/SSMSThemeEditor/master/images/screenshot.png)
+![Example Screenshot](https://raw.githubusercontent.com/tcartwright/SSMSThemeEditor/master/SSMSThemeEditor/images/screenshot.png)
 
 ## How to Use:
 
