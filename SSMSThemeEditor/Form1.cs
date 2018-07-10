@@ -1,7 +1,6 @@
 ﻿using SSMSThemeEditor.Properties;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,13 +17,15 @@ namespace SSMSThemeEditor
         private string _settingsInitialDirectory;
         private string _saveFile;
         private bool _isDirty = false;
+        private LimitedSizeStack<ChangeItem> _undoStack = new LimitedSizeStack<ChangeItem>(50);
+        private LimitedSizeStack<ChangeItem> _redoStack = new LimitedSizeStack<ChangeItem>(50);
+        private List<string> _changes = new List<string>();
 
         #region events
         public frmMain()
         {
             InitializeComponent();
         }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             ModifyButtonEvents(tlpGeneral);
@@ -35,6 +36,7 @@ namespace SSMSThemeEditor
             SetupColorLabels(tlpSQL);
             SetupColorLabels(tlpXML);
         }
+
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (SaveChanges())
@@ -59,10 +61,9 @@ namespace SSMSThemeEditor
                 colorDialog1.Color = lbl.BackColor;
                 if (colorDialog1.ShowDialog() == DialogResult.OK && lbl.BackColor != colorDialog1.Color)
                 {
-                    lbl.BackColor = colorDialog1.Color;
-                    SetLabelImage(lbl);
-                    SetColorLabelToolTip(lbl);
-                    ColorsHaveChanged();
+                    var ci = GetChangeItem(tblPanel, lbl, colorDialog1.Color, col, row);
+                    _undoStack.Push(ci);
+                    SetLabelColor(lbl, colorDialog1.Color);
                 }
             }
         }
@@ -89,7 +90,7 @@ namespace SSMSThemeEditor
                     var doc = new XmlDocument();
                     doc.Load(openFileDialog1.FileName);
 
-                    BlankColors();
+                    BlankLabels();
                     LoadColors(doc, tlpGeneral);
                     LoadColors(doc, tlpSQL);
                     LoadColors(doc, tlpXML);
@@ -97,12 +98,12 @@ namespace SSMSThemeEditor
                     _saveFile = openFileDialog1.FileName;
                     _settingsInitialDirectory = Path.GetDirectoryName(openFileDialog1.FileName);
                     ColorsHaveChanged(false);
-
+                    ClearUndo();
                     this.Text = $"{Resources.AppTitle} - {Path.GetFileName(openFileDialog1.FileName)}";
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -111,7 +112,8 @@ namespace SSMSThemeEditor
             if (SaveChanges()) { return; }
 
             this.Text = Resources.AppTitle;
-            BlankColors();
+            BlankLabels();
+            ClearUndo();
             btnSave.Enabled = _isDirty = false;
             _saveFile = string.Empty;
             webBrowser1.DocumentText = Resources.SQLSample;
@@ -142,6 +144,8 @@ namespace SSMSThemeEditor
 
                     File.WriteAllText(saveFileDialog1.FileName, settings);
 
+                    ClearUndo();
+
                     btnSave.Enabled = _isDirty = false;
                 }
                 catch (Exception ex)
@@ -155,9 +159,13 @@ namespace SSMSThemeEditor
             var tsm = ((ToolStripMenuItem)sender);
             if ((tsm.GetCurrentParent() as ContextMenuStrip).SourceControl is Label lbl && lbl.BackColor != Color.Transparent)
             {
-                lbl.BackColor = Color.Transparent;
-                lbl.Image = Resources.BlankImage;
-                ColorsHaveChanged();
+                var tlp = (TableLayoutPanel)lbl.Parent;
+                var row = tlp.GetRow(lbl);
+                var col = tlp.GetColumn(lbl);
+
+                var ci = GetChangeItem(tlp, lbl, Color.Transparent, col, row);
+                _undoStack.Push(ci);
+                SetLabelColor(lbl, Color.Transparent);
             }
         }
         private void tsmClearColors_Click(object sender, EventArgs e)
@@ -170,15 +178,15 @@ namespace SSMSThemeEditor
                     var hasChanged = false;
                     if (tp == tabPageGeneral)
                     {
-                        hasChanged = BlankColors(tlpGeneral);
+                        hasChanged = BlankLabels(tlpGeneral, true);
                     }
                     else if (tp == tabPageSQL)
                     {
-                        hasChanged = BlankColors(tlpSQL);
+                        hasChanged = BlankLabels(tlpSQL, true);
                     }
                     else if (tp == tabPageXML)
                     {
-                        hasChanged = BlankColors(tlpXML);
+                        hasChanged = BlankLabels(tlpXML, true);
                     }
                     if (hasChanged)
                     {
@@ -187,10 +195,100 @@ namespace SSMSThemeEditor
                 }
             }
         }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                if (_undoStack.Count > 0)
+                {
+                    var ci = _undoStack.Pop();
+                    if (Control.FromHandle(ci.LabelPtr) is Label lbl)
+                    {
+                        UpdateChanges(null);
+                        SetLabelColor(lbl, ci.OldLabelColor, _undoStack.Count > 0);
+                    }
+                    _redoStack.Push(ci);
+                }
 
+                if (_undoStack.Count == 0)
+                {
+                    txtChanges.Text = string.Empty;
+                }
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.Y))
+            {
+                if (_redoStack.Count > 0)
+                {
+                    var ci = _redoStack.Pop();
+                    if (Control.FromHandle(ci.LabelPtr) is Label lbl)
+                    {
+                        UpdateChanges($"{ci.Style} -> {ColorToRGBString(ci.OldLabelColor)} TO {ColorToRGBString(ci.NewLabelColor)}");
+                        SetLabelColor(lbl, ci.NewLabelColor);
+                    }
+                    _undoStack.Push(ci);
+                }
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
         #endregion events
 
         #region private methods
+        private void UpdateChanges(string msg)
+        {
+            if (msg == null)
+            {
+                _changes.Remove(_changes.Last());
+            }
+            else
+            {
+                _changes.Add(msg);
+            }
+            txtChanges.Text = string.Join("\r\n", _changes.Select((d, i) => $"[{i + 1}] {d}")); 
+            txtChanges.SelectionStart = txtChanges.Text.Length;
+            txtChanges.ScrollToCaret();
+        }
+        private void ClearUndo()
+        {
+            _undoStack.Clear();
+            _redoStack.Clear();
+            _changes.Clear();
+            txtChanges.Text = string.Empty;
+        }
+        private string ColorToRGBString(Color color)
+        {
+            if (color != Color.Transparent)
+            {
+                return $"RGB:{color.R},{color.G},{color.B}";
+            }
+            else
+            {
+                return "Transparent";
+            }
+        }
+        private ChangeItem GetChangeItem(TableLayoutPanel tblPanel, Label lbl, Color newColor, int col, int row)
+        {
+            var styleLabel = tblPanel.GetControlFromPosition(0, row) as Label;
+            var styleType = col == 1 ? "Foreground" : "Background";
+            var ci = new ChangeItem()
+            {
+                Style = $"{styleLabel.Text} ({styleType})",
+                LabelPtr = lbl.Handle,
+                OldLabelColor = lbl.BackColor,
+                NewLabelColor = newColor
+            };
+            UpdateChanges($"{ci.Style} -> {ColorToRGBString(ci.OldLabelColor)} TO {ColorToRGBString(ci.NewLabelColor)}");
+            return ci;
+        }
+        private void SetLabelColor(Label lbl, Color color, bool saveEnabled = true)
+        {
+            lbl.BackColor = color;
+            SetLabelImage(lbl);
+            SetColorLabelToolTip(lbl);
+            ColorsHaveChanged(saveEnabled);
+        }
         private void ModifyButtonEvents(TableLayoutPanel tlp, bool addEvents = true)
         {
             foreach (var btn in tlp.Controls)
@@ -230,8 +328,15 @@ namespace SSMSThemeEditor
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine($"body {{ color:{ToCssHex(lblPlainTextFG.BackColor)}; background-color:{ToCssHex(lblPlainTextBG.BackColor)}; }}");
-            sb.AppendLine($"::selection {{ background-color:{ToCssHex(lblSelectedTextBG.BackColor)}; }}");
+            sb.Append("body {");
+            if (lblPlainTextFG.BackColor != Color.Transparent) { sb.Append($"color:{ToCssHex(lblPlainTextFG.BackColor)};"); }
+            if (lblPlainTextBG.BackColor != Color.Transparent) { sb.Append($"background-color:{ToCssHex(lblPlainTextBG.BackColor)};"); }
+            sb.AppendLine("}");
+
+            if (lblSelectedTextBG.BackColor != Color.Transparent)
+            {
+                sb.AppendLine($"::selection {{background-color:{ToCssHex(lblSelectedTextBG.BackColor)};}}");
+            }
 
             AddCssStyles(sb, tlpGeneral);
             AddCssStyles(sb, tlpSQL);
@@ -284,14 +389,13 @@ namespace SSMSThemeEditor
                     || lbl.Text == "Plain Text"
                     || lbl.Text == "Selected Text") { continue; }
 
-                var className = Regex.Replace(lbl.Text, @"[ \(\)/]", "");
-
                 var fgColor = tlp.GetControlFromPosition(1, i) as Label;
                 var bgColor = tlp.GetControlFromPosition(3, i) as Label;
 
                 if ((fgColor != null && fgColor.BackColor != Color.Transparent)
                     || (bgColor != null && bgColor.BackColor != Color.Transparent))
                 {
+                    var className = Regex.Replace(lbl.Text, @"[ \(\)/]", "");
                     sb.Append($".{className} {{");
 
                     if (fgColor != null) { sb.Append($" color:{ToCssHex(fgColor.BackColor)} !important;"); }
@@ -339,32 +443,46 @@ namespace SSMSThemeEditor
                 }
             }
         }
-        private void BlankColors()
+        private void BlankLabels()
         {
-            BlankColors(tlpGeneral);
-            BlankColors(tlpSQL);
-            BlankColors(tlpXML);
+            BlankLabels(tlpGeneral);
+            BlankLabels(tlpSQL);
+            BlankLabels(tlpXML);
         }
-        private bool BlankColors(TableLayoutPanel tlp)
+        private bool BlankLabels(TableLayoutPanel tlp, bool captureUndo = false)
         {
             var hasChanged = false;
             for (int i = 0; i <= tlp.RowCount; i++)
             {
                 if (tlp.GetControlFromPosition(1, i) is Label fgColor)
                 {
-                    if (!hasChanged && fgColor.BackColor != Color.Transparent) { hasChanged = true; }
-                    fgColor.BackColor = Color.Transparent;
-                    fgColor.Image = Resources.BlankImage;
+                    hasChanged = SetLabelBlank(tlp, fgColor, captureUndo, hasChanged);
                 }
                 if (tlp.GetControlFromPosition(3, i) is Label bgColor)
                 {
-                    if (!hasChanged && bgColor.BackColor != Color.Transparent) { hasChanged = true; }
-                    bgColor.BackColor = Color.Transparent;
-                    bgColor.Image = Resources.BlankImage;
+                    hasChanged = SetLabelBlank(tlp, bgColor, captureUndo, hasChanged);
                 }
             }
             return hasChanged;
         }
+
+        private bool SetLabelBlank(TableLayoutPanel tlp, Label lbl, bool captureUndo, bool hasChanged)
+        {
+            if (lbl.BackColor == Color.Transparent) { return hasChanged; }
+            if (!hasChanged && lbl.BackColor != Color.Transparent) { hasChanged = true; }
+            if (captureUndo && hasChanged)
+            {
+                var row = tlp.GetRow(lbl);
+                var col = tlp.GetColumn(lbl);
+
+                var ci = GetChangeItem(tlp, lbl, Color.Transparent, col, row);
+                _undoStack.Push(ci);
+            }
+            lbl.BackColor = Color.Transparent;
+            lbl.Image = Resources.BlankImage;
+            return hasChanged;
+        }
+
         private void SetColorLabelToolTip(Label lbl)
         {
             string colorName = lbl.BackColor.IsKnownColor ? lbl.BackColor.ToKnownColor().ToString() : lbl.BackColor.Name;

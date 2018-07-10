@@ -31,10 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
+            this.cmsClearColors = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmClearColors = new System.Windows.Forms.ToolStripMenuItem();
             this.tlpGeneral = new System.Windows.Forms.TableLayoutPanel();
             this.button4 = new System.Windows.Forms.Button();
             this.label58 = new System.Windows.Forms.Label();
@@ -141,12 +142,14 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cmsClearColors = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmClearColors = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.txtChanges = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneral.SuspendLayout();
+            this.cmsClearColors.SuspendLayout();
             this.tlpGeneral.SuspendLayout();
             this.tabPageSQL.SuspendLayout();
             this.tlpSQL.SuspendLayout();
@@ -154,7 +157,7 @@
             this.tlpXML.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.cmsClearColor.SuspendLayout();
-            this.cmsClearColors.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // colorDialog1
@@ -167,8 +170,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.02372F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.97628F));
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -177,15 +180,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 874F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1391, 874);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(517, 3);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(23, 23);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(871, 868);
-            this.webBrowser1.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
@@ -226,6 +220,20 @@
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "General";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // cmsClearColors
+            // 
+            this.cmsClearColors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmClearColors});
+            this.cmsClearColors.Name = "cmsClearColors";
+            this.cmsClearColors.Size = new System.Drawing.Size(139, 26);
+            // 
+            // tsmClearColors
+            // 
+            this.tsmClearColors.Name = "tsmClearColors";
+            this.tsmClearColors.Size = new System.Drawing.Size(138, 22);
+            this.tsmClearColors.Text = "Clear Colors";
+            this.tsmClearColors.Click += new System.EventHandler(this.tsmClearColors_Click);
             // 
             // tlpGeneral
             // 
@@ -1539,19 +1547,40 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // cmsClearColors
+            // tableLayoutPanel3
             // 
-            this.cmsClearColors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmClearColors});
-            this.cmsClearColors.Name = "cmsClearColors";
-            this.cmsClearColors.Size = new System.Drawing.Size(181, 48);
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.webBrowser1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txtChanges, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(517, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.83691F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.16309F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(871, 868);
+            this.tableLayoutPanel3.TabIndex = 2;
             // 
-            // tsmClearColors
+            // webBrowser1
             // 
-            this.tsmClearColors.Name = "tsmClearColors";
-            this.tsmClearColors.Size = new System.Drawing.Size(180, 22);
-            this.tsmClearColors.Text = "Clear Colors";
-            this.tsmClearColors.Click += new System.EventHandler(this.tsmClearColors_Click);
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(865, 739);
+            this.webBrowser1.TabIndex = 0;
+            // 
+            // txtChanges
+            // 
+            this.txtChanges.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtChanges.Location = new System.Drawing.Point(3, 748);
+            this.txtChanges.Multiline = true;
+            this.txtChanges.Name = "txtChanges";
+            this.txtChanges.ReadOnly = true;
+            this.txtChanges.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtChanges.Size = new System.Drawing.Size(865, 117);
+            this.txtChanges.TabIndex = 1;
             // 
             // frmMain
             // 
@@ -1568,6 +1597,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPageGeneral.ResumeLayout(false);
+            this.cmsClearColors.ResumeLayout(false);
             this.tlpGeneral.ResumeLayout(false);
             this.tlpGeneral.PerformLayout();
             this.tabPageSQL.ResumeLayout(false);
@@ -1578,7 +1608,8 @@
             this.tlpXML.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.cmsClearColor.ResumeLayout(false);
-            this.cmsClearColors.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1586,7 +1617,6 @@
         #endregion
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageGeneral;
@@ -1698,6 +1728,9 @@
         private System.Windows.Forms.ToolStripMenuItem tsmClearColor;
         private System.Windows.Forms.ContextMenuStrip cmsClearColors;
         private System.Windows.Forms.ToolStripMenuItem tsmClearColors;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.TextBox txtChanges;
     }
 }
 

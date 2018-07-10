@@ -24,6 +24,8 @@ Blank colors will show as an X to signify they have not been set for that settin
 
 Each setting has a foreground, or a background color button, and in some cases both. If the foreground or background buttons are not available that is because those settings should not have that value. As you change the colors the preview will be kept in synch with the changes you make. 
 
+You can press CTRL-Z to undo changes, or CTRL-Y to redo changes. The application will store up to 50 changes.
+
 Once you are done making any changes to your theme you can then save the theme file and import it into SSMS.
 
 ## Downloads:
