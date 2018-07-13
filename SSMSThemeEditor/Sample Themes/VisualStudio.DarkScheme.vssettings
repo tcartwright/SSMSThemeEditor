@@ -41,7 +41,6 @@
 							<Item Name="XML Text" Foreground="0x00C8C8C8" BoldFont="No"/>
 							<Item Name="XML Doc Tag" Foreground="0x00A9A9A9" BoldFont="No"/>
 							<Item Name="XML Doc Comment" Foreground="0x004AA657" BoldFont="No"/>
-
 						</Items>
 					</Category>
 					<Category GUID="{AD3737CA-26A1-47CB-A143-0EB0ECBC7FC9}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No">

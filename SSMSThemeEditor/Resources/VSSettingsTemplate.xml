@@ -8,16 +8,10 @@
 			<PropertyValue name="Version">2</PropertyValue>
 			<FontsAndColors Version="2.0">
 				<Categories>
-					<Category GUID="{A27B4E24-A735-4D1D-B8E7-9716E1E3D8E0}" FontName="Consolas" FontSize="11" CharSet="0" FontIsDefault="No">
+					<Category GUID="{A27B4E24-A735-4D1D-B8E7-9716E1E3D8E0}" FontName="{FONTNAME}" FontSize="{FONTSIZE}" CharSet="0" FontIsDefault="No">
 						<Items>
 <!--<<ITEMS>>-->
 						</Items>
-					</Category>
-					<Category GUID="{AD3737CA-26A1-47CB-A143-0EB0ECBC7FC9}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No">
-						<Items/>
-					</Category>
-					<Category GUID="{E6784B78-8552-41D7-9630-D1FDEE0DD8E2}" FontName="Calibri" FontSize="11" CharSet="1" FontIsDefault="No">
-						<Items/>
 					</Category>
 				</Categories>
 			</FontsAndColors>

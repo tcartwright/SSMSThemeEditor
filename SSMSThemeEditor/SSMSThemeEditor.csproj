@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -80,13 +81,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="GitPush.bat" />
     <Content Include="images\screenshot.png" />
     <Content Include="Resources\Blank.png" />
-    <Content Include="Resources\VSSettingsTemplate.xml" />
+    <Content Include="Resources\VSSettingsTemplate.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\SQLSample.html" />
     <Content Include="Sample Themes\Obsidian.DarkScheme.vssettings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

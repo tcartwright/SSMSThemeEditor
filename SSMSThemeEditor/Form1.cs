@@ -1,6 +1,8 @@
 ﻿using SSMSThemeEditor.Properties;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,6 +22,13 @@ namespace SSMSThemeEditor
         private LimitedSizeStack<ChangeItem> _undoStack = new LimitedSizeStack<ChangeItem>(50);
         private LimitedSizeStack<ChangeItem> _redoStack = new LimitedSizeStack<ChangeItem>(50);
         private List<string> _changes = new List<string>();
+        private readonly AutoCompleteStringCollection _fonts = new AutoCompleteStringCollection();
+        private readonly AutoCompleteStringCollection _fontSizes = new AutoCompleteStringCollection { "8", "9", "10", "11", "12", "14", "16", "18", "20", "22", "24", "26", "28", "36", "72" };
+        private string _defaultFontName = string.Empty;
+        private string _defaultFontSize = string.Empty;
+        private string _fontName = string.Empty;
+        private string _fontSize = string.Empty;
+        private readonly StringComparer _comparer = StringComparer.InvariantCultureIgnoreCase;
 
         #region events
         public frmMain()
@@ -28,6 +37,18 @@ namespace SSMSThemeEditor
         }
         private void frmMain_Load(object sender, EventArgs e)
         {
+            foreach (FontFamily font in System.Drawing.FontFamily.Families)
+            {
+                _fonts.Add(font.Name);
+            }
+            cboFont.DataSource = _fonts;
+            cboFont.AutoCompleteCustomSource = _fonts;
+            cboFontSize.DataSource = _fontSizes;
+            cboFontSize.AutoCompleteCustomSource = _fontSizes;
+            _defaultFontName = _fontName = ConfigurationManager.AppSettings["DefaultFontName"];
+            _defaultFontSize = _fontSize = ConfigurationManager.AppSettings["DefaultFontSize"];
+            SetFont(_fontName, _fontSize);
+
             ModifyButtonEvents(tlpGeneral);
             ModifyButtonEvents(tlpSQL);
             ModifyButtonEvents(tlpXML);
@@ -36,7 +57,6 @@ namespace SSMSThemeEditor
             SetupColorLabels(tlpSQL);
             SetupColorLabels(tlpXML);
         }
-
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (SaveChanges())
@@ -89,6 +109,7 @@ namespace SSMSThemeEditor
                 {
                     var doc = new XmlDocument();
                     doc.Load(openFileDialog1.FileName);
+                    GetFontInfo(doc);
 
                     BlankLabels();
                     LoadColors(doc, tlpGeneral);
@@ -97,7 +118,7 @@ namespace SSMSThemeEditor
 
                     _saveFile = openFileDialog1.FileName;
                     _settingsInitialDirectory = Path.GetDirectoryName(openFileDialog1.FileName);
-                    ColorsHaveChanged(false);
+                    FormHasChanged(false);
                     ClearUndo();
                     this.Text = $"{Resources.AppTitle} - {Path.GetFileName(openFileDialog1.FileName)}";
                 }
@@ -114,6 +135,7 @@ namespace SSMSThemeEditor
             this.Text = Resources.AppTitle;
             BlankLabels();
             ClearUndo();
+            SetFont(_defaultFontName, _defaultFontSize);
             btnSave.Enabled = _isDirty = false;
             _saveFile = string.Empty;
             webBrowser1.DocumentText = Resources.SQLSample;
@@ -140,7 +162,10 @@ namespace SSMSThemeEditor
                 {
                     var items = BuildItems();
 
-                    var settings = Resources.VSSettingsTemplate.Replace("<!--<<ITEMS>>-->", items);
+                    var settings = Resources.VSSettingsTemplate
+                        .Replace("<!--<<ITEMS>>-->", items)
+                        .Replace("{FONTNAME}", _fontName)
+                        .Replace("{FONTSIZE}", _fontSize);
 
                     File.WriteAllText(saveFileDialog1.FileName, settings);
 
@@ -190,7 +215,7 @@ namespace SSMSThemeEditor
                     }
                     if (hasChanged)
                     {
-                        ColorsHaveChanged();
+                        FormHasChanged();
                     }
                 }
             }
@@ -233,6 +258,22 @@ namespace SSMSThemeEditor
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        private void cboFont_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!_comparer.Equals(cboFont.Text, _fontName))
+            {
+                _fontName = cboFont.Text;
+                FormHasChanged();
+            }
+        }
+        private void cboFontSize_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (!_comparer.Equals(cboFontSize.Text, _fontSize))
+            {
+                _fontSize = cboFontSize.Text;
+                FormHasChanged();
+            }
+        }
         #endregion events
 
         #region private methods
@@ -246,7 +287,7 @@ namespace SSMSThemeEditor
             {
                 _changes.Add(msg);
             }
-            txtChanges.Text = string.Join("\r\n", _changes.Select((d, i) => $"[{i + 1}] {d}")); 
+            txtChanges.Text = string.Join("\r\n", _changes.Select((d, i) => $"[{i + 1}] {d}"));
             txtChanges.SelectionStart = txtChanges.Text.Length;
             txtChanges.ScrollToCaret();
         }
@@ -287,7 +328,7 @@ namespace SSMSThemeEditor
             lbl.BackColor = color;
             SetLabelImage(lbl);
             SetColorLabelToolTip(lbl);
-            ColorsHaveChanged(saveEnabled);
+            FormHasChanged(saveEnabled);
         }
         private void ModifyButtonEvents(TableLayoutPanel tlp, bool addEvents = true)
         {
@@ -329,14 +370,12 @@ namespace SSMSThemeEditor
             var sb = new StringBuilder();
 
             sb.Append("body {");
+            sb.Append($"font-family:\"{_fontName}\";font-size:{_fontSize}pt;");
             if (lblPlainTextFG.BackColor != Color.Transparent) { sb.Append($"color:{ToCssHex(lblPlainTextFG.BackColor)};"); }
             if (lblPlainTextBG.BackColor != Color.Transparent) { sb.Append($"background-color:{ToCssHex(lblPlainTextBG.BackColor)};"); }
             sb.AppendLine("}");
 
-            if (lblSelectedTextBG.BackColor != Color.Transparent)
-            {
-                sb.AppendLine($"::selection {{background-color:{ToCssHex(lblSelectedTextBG.BackColor)};}}");
-            }
+            if (lblSelectedTextBG.BackColor != Color.Transparent) { sb.AppendLine($"::selection {{background-color:{ToCssHex(lblSelectedTextBG.BackColor)};}}"); }
 
             AddCssStyles(sb, tlpGeneral);
             AddCssStyles(sb, tlpSQL);
@@ -465,7 +504,6 @@ namespace SSMSThemeEditor
             }
             return hasChanged;
         }
-
         private bool SetLabelBlank(TableLayoutPanel tlp, Label lbl, bool captureUndo, bool hasChanged)
         {
             if (lbl.BackColor == Color.Transparent) { return hasChanged; }
@@ -482,7 +520,6 @@ namespace SSMSThemeEditor
             lbl.Image = Resources.BlankImage;
             return hasChanged;
         }
-
         private void SetColorLabelToolTip(Label lbl)
         {
             string colorName = lbl.BackColor.IsKnownColor ? lbl.BackColor.ToKnownColor().ToString() : lbl.BackColor.Name;
@@ -518,10 +555,56 @@ namespace SSMSThemeEditor
                 lbl.Image = null;
             }
         }
-        private void ColorsHaveChanged(bool saveEnabled = true)
+        private void FormHasChanged(bool saveEnabled = true)
         {
             btnSave.Enabled = _isDirty = saveEnabled;
             RefreshSample();
+        }
+        private void SetFont(string fontName, string fontSize)
+        {
+            var fontIndex = cboFont.FindStringExact(fontName);
+            if (fontIndex >= 0)
+            {
+                cboFont.SelectedIndex = fontIndex;
+            }
+            else
+            {
+                cboFont.Text = _defaultFontName;
+            }
+
+            var fontSizeIndex = cboFontSize.FindStringExact(fontSize);
+            if (fontSizeIndex >= 0)
+            {
+                cboFontSize.SelectedIndex = fontSizeIndex;
+            }
+            else
+            {
+                cboFontSize.Text = _defaultFontSize;
+            }
+        }
+        private void GetFontInfo(XmlDocument doc)
+        {
+            //scan the doc for a default font
+            var node = doc.SelectSingleNode("/UserSettings/Category/Category/FontsAndColors/Categories/Category[@FontIsDefault='Yes']");
+
+            //default not found, look for the plain text item, and get its category
+            if (node == null)
+            {
+                node = doc.SelectSingleNode("/UserSettings/Category/Category/FontsAndColors/Categories/Category/Items/Item[@Name='Plain Text']/ancestor::Category[1]");
+                //still null, just grab the first one
+                if (node == null)
+                {
+                    node = doc.SelectSingleNode("/UserSettings/Category/Category/FontsAndColors/Categories/Category[1]");
+                    if (node == null)
+                    {
+                        SetFont(_defaultFontName, _defaultFontSize);
+                        return;
+                    }
+                }
+            }
+            _fontName = node.Attributes["FontName"].Value;
+            _fontSize = node.Attributes["FontSize"].Value;
+            SetFont(_fontName, _fontSize);
         }
         #endregion private methods
     }
