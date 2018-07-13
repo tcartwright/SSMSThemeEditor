@@ -602,8 +602,11 @@ namespace SSMSThemeEditor
                     }
                 }
             }
-            _fontName = node.Attributes["FontName"].Value;
-            _fontSize = node.Attributes["FontSize"].Value;
+            var attr = node.Attributes["FontName"];
+            _fontName = attr != null ? attr.Value : _defaultFontName;
+
+            attr = node.Attributes["FontSize"];
+            _fontSize = attr != null ? attr.Value : _defaultFontSize;
             SetFont(_fontName, _fontSize);
         }
         #endregion private methods
