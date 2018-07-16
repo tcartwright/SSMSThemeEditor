@@ -31,10 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
+            this.cmsClearColors = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmClearColors = new System.Windows.Forms.ToolStripMenuItem();
             this.tlpGeneral = new System.Windows.Forms.TableLayoutPanel();
             this.button4 = new System.Windows.Forms.Button();
             this.label58 = new System.Windows.Forms.Label();
@@ -136,25 +137,31 @@
             this.btnNew = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.cboFont = new System.Windows.Forms.ComboBox();
+            this.cboFontSize = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.txtChanges = new System.Windows.Forms.TextBox();
             this.cmsClearColor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmClearColor = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cmsClearColors = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmClearColors = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneral.SuspendLayout();
+            this.cmsClearColors.SuspendLayout();
             this.tlpGeneral.SuspendLayout();
             this.tabPageSQL.SuspendLayout();
             this.tlpSQL.SuspendLayout();
             this.tabPageXML.SuspendLayout();
             this.tlpXML.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.cmsClearColor.SuspendLayout();
-            this.cmsClearColors.SuspendLayout();
             this.SuspendLayout();
             // 
             // colorDialog1
@@ -167,8 +174,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.02372F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.97628F));
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -178,28 +185,20 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1391, 874);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(517, 3);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(23, 23);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(871, 868);
-            this.webBrowser1.TabIndex = 0;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel6, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel6, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.4424F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5576F));
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(508, 868);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
@@ -209,10 +208,10 @@
             this.tabControl1.Controls.Add(this.tabPageSQL);
             this.tabControl1.Controls.Add(this.tabPageXML);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Location = new System.Drawing.Point(3, 43);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(502, 753);
+            this.tabControl1.Size = new System.Drawing.Size(502, 739);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageGeneral
@@ -222,10 +221,24 @@
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 24);
             this.tabPageGeneral.Name = "tabPageGeneral";
             this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGeneral.Size = new System.Drawing.Size(494, 725);
+            this.tabPageGeneral.Size = new System.Drawing.Size(494, 711);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "General";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // cmsClearColors
+            // 
+            this.cmsClearColors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmClearColors});
+            this.cmsClearColors.Name = "cmsClearColors";
+            this.cmsClearColors.Size = new System.Drawing.Size(139, 26);
+            // 
+            // tsmClearColors
+            // 
+            this.tsmClearColors.Name = "tsmClearColors";
+            this.tsmClearColors.Size = new System.Drawing.Size(138, 22);
+            this.tsmClearColors.Text = "Clear Colors";
+            this.tsmClearColors.Click += new System.EventHandler(this.tsmClearColors_Click);
             // 
             // tlpGeneral
             // 
@@ -283,7 +296,7 @@
             this.tlpGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlpGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlpGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tlpGeneral.Size = new System.Drawing.Size(488, 719);
+            this.tlpGeneral.Size = new System.Drawing.Size(488, 705);
             this.tlpGeneral.TabIndex = 0;
             // 
             // button4
@@ -655,7 +668,7 @@
             this.tabPageSQL.Location = new System.Drawing.Point(4, 24);
             this.tabPageSQL.Name = "tabPageSQL";
             this.tabPageSQL.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSQL.Size = new System.Drawing.Size(494, 725);
+            this.tabPageSQL.Size = new System.Drawing.Size(494, 711);
             this.tabPageSQL.TabIndex = 1;
             this.tabPageSQL.Text = "SQL";
             this.tabPageSQL.UseVisualStyleBackColor = true;
@@ -693,7 +706,7 @@
             this.tlpSQL.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlpSQL.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlpSQL.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tlpSQL.Size = new System.Drawing.Size(488, 719);
+            this.tlpSQL.Size = new System.Drawing.Size(488, 705);
             this.tlpSQL.TabIndex = 1;
             // 
             // label32
@@ -873,7 +886,7 @@
             this.tabPageXML.Location = new System.Drawing.Point(4, 24);
             this.tabPageXML.Name = "tabPageXML";
             this.tabPageXML.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageXML.Size = new System.Drawing.Size(494, 725);
+            this.tabPageXML.Size = new System.Drawing.Size(494, 711);
             this.tabPageXML.TabIndex = 2;
             this.tabPageXML.Text = "XML";
             this.tabPageXML.UseVisualStyleBackColor = true;
@@ -951,7 +964,7 @@
             this.tlpXML.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlpXML.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tlpXML.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tlpXML.Size = new System.Drawing.Size(488, 719);
+            this.tlpXML.Size = new System.Drawing.Size(488, 705);
             this.tlpXML.TabIndex = 1;
             // 
             // label55
@@ -1474,13 +1487,13 @@
             this.tableLayoutPanel6.Controls.Add(this.btnSave, 2, 1);
             this.tableLayoutPanel6.Controls.Add(this.btnLoad, 1, 1);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 762);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 788);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 3;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(502, 103);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(502, 77);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
             // btnNew
@@ -1520,6 +1533,83 @@
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72.70916F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.29084F));
+            this.tableLayoutPanel4.Controls.Add(this.cboFont, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.cboFontSize, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(502, 34);
+            this.tableLayoutPanel4.TabIndex = 2;
+            // 
+            // cboFont
+            // 
+            this.cboFont.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboFont.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboFont.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFont.FormattingEnabled = true;
+            this.cboFont.Location = new System.Drawing.Point(4, 5);
+            this.cboFont.Name = "cboFont";
+            this.cboFont.Size = new System.Drawing.Size(356, 23);
+            this.cboFont.TabIndex = 0;
+            this.cboFont.SelectionChangeCommitted += new System.EventHandler(this.cboFont_SelectionChangeCommitted);
+            // 
+            // cboFontSize
+            // 
+            this.cboFontSize.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboFontSize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboFontSize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboFontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFontSize.FormattingEnabled = true;
+            this.cboFontSize.Location = new System.Drawing.Point(372, 5);
+            this.cboFontSize.Name = "cboFontSize";
+            this.cboFontSize.Size = new System.Drawing.Size(121, 23);
+            this.cboFontSize.TabIndex = 1;
+            this.cboFontSize.SelectionChangeCommitted += new System.EventHandler(this.cboFontSize_SelectionChangeCommitted);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.webBrowser1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txtChanges, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(517, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.83691F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.16309F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(871, 868);
+            this.tableLayoutPanel3.TabIndex = 2;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(3, 3);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(865, 739);
+            this.webBrowser1.TabIndex = 0;
+            // 
+            // txtChanges
+            // 
+            this.txtChanges.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtChanges.Location = new System.Drawing.Point(3, 748);
+            this.txtChanges.Multiline = true;
+            this.txtChanges.Name = "txtChanges";
+            this.txtChanges.ReadOnly = true;
+            this.txtChanges.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtChanges.Size = new System.Drawing.Size(865, 117);
+            this.txtChanges.TabIndex = 1;
+            // 
             // cmsClearColor
             // 
             this.cmsClearColor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1539,20 +1629,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // cmsClearColors
-            // 
-            this.cmsClearColors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmClearColors});
-            this.cmsClearColors.Name = "cmsClearColors";
-            this.cmsClearColors.Size = new System.Drawing.Size(181, 48);
-            // 
-            // tsmClearColors
-            // 
-            this.tsmClearColors.Name = "tsmClearColors";
-            this.tsmClearColors.Size = new System.Drawing.Size(180, 22);
-            this.tsmClearColors.Text = "Clear Colors";
-            this.tsmClearColors.Click += new System.EventHandler(this.tsmClearColors_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1568,6 +1644,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPageGeneral.ResumeLayout(false);
+            this.cmsClearColors.ResumeLayout(false);
             this.tlpGeneral.ResumeLayout(false);
             this.tlpGeneral.PerformLayout();
             this.tabPageSQL.ResumeLayout(false);
@@ -1577,8 +1654,10 @@
             this.tlpXML.ResumeLayout(false);
             this.tlpXML.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.cmsClearColor.ResumeLayout(false);
-            this.cmsClearColors.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1586,7 +1665,6 @@
         #endregion
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageGeneral;
@@ -1698,6 +1776,12 @@
         private System.Windows.Forms.ToolStripMenuItem tsmClearColor;
         private System.Windows.Forms.ContextMenuStrip cmsClearColors;
         private System.Windows.Forms.ToolStripMenuItem tsmClearColors;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.TextBox txtChanges;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.ComboBox cboFont;
+        private System.Windows.Forms.ComboBox cboFontSize;
     }
 }
 
