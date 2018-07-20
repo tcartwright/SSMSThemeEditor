@@ -56,6 +56,10 @@ namespace SSMSThemeEditor
             SetupColorLabels(tlpGeneral);
             SetupColorLabels(tlpSQL);
             SetupColorLabels(tlpXML);
+
+            UpdateTableFormat(tlpGeneral);
+            UpdateTableFormat(tlpSQL);
+            UpdateTableFormat(tlpXML);
         }
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -277,6 +281,13 @@ namespace SSMSThemeEditor
         #endregion events
 
         #region private methods
+        private void UpdateTableFormat(TableLayoutPanel tlp)
+        {
+            for (int i = 0; i < tlp.RowCount; i++)
+            {
+                var row = tlp.RowStyles[i].Height = 40;
+            }
+        }
         private void UpdateChanges(string msg)
         {
             if (msg == null)

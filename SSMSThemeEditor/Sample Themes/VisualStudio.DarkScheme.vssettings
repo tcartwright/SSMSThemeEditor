@@ -21,6 +21,7 @@
 							<Item Name="MarkerFormatDefinition/FindHighlight" Background="0x00003877" BoldFont="No"/>
 							<Item Name="Brace Matching (Rectangle)" Background="0x0083450E" BoldFont="No"/>
 							<Item Name="Brace Matching (Highlight)" Background="0x00C0C0C0" BoldFont="No"/>
+							<Item Name="Indicator Margin" Background="0x00333333" BoldFont="No"/>
 							<Item Name="SQL String" Foreground="0x004141CB" BoldFont="No"/>
 							<Item Name="SQL Operator" Foreground="0x00818181" BoldFont="No"/>
 							<Item Name="SQL System Function" Foreground="0x00D575C9" BoldFont="No"/>
@@ -41,13 +42,8 @@
 							<Item Name="XML Text" Foreground="0x00C8C8C8" BoldFont="No"/>
 							<Item Name="XML Doc Tag" Foreground="0x00A9A9A9" BoldFont="No"/>
 							<Item Name="XML Doc Comment" Foreground="0x004AA657" BoldFont="No"/>
+
 						</Items>
-					</Category>
-					<Category GUID="{AD3737CA-26A1-47CB-A143-0EB0ECBC7FC9}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No">
-						<Items/>
-					</Category>
-					<Category GUID="{E6784B78-8552-41D7-9630-D1FDEE0DD8E2}" FontName="Calibri" FontSize="11" CharSet="1" FontIsDefault="No">
-						<Items/>
 					</Category>
 				</Categories>
 			</FontsAndColors>
