@@ -1,6 +1,25 @@
 ﻿Set-StrictMode -Version 1
 Clear-Host
 
+## self elevating code source: https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/
+# Get the ID and security principal of the current user account
+$winID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+$winPrincipal=new-object System.Security.Principal.WindowsPrincipal($winID)
+ 
+# Get the security principal for the Administrator role
+$adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+ 
+# Check to see if we are currently running "as Administrator"
+if (!($winPrincipal.IsInRole($adminRole))) {
+   $process = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+   $process.Arguments = $myInvocation.MyCommand.Definition;
+   # Indicate that the process should be elevated
+   $process.Verb = "runas";
+   [System.Diagnostics.Process]::Start($process);
+   Exit
+}
+
+
 $dir = $PSScriptRoot
 Set-Location -Path $dir
 
@@ -44,3 +63,5 @@ if ($files.Length -ge 0) {
 }
 
 Write-Host "Complete`r`n"
+
+Read-Host -Prompt “Press Enter to exit” 
