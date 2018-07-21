@@ -102,4 +102,6 @@ if ($files.Length -ge 0) {
 
 Write-Host "Complete`r`n"
 
-Read-Host -Prompt “Press Enter to exit” 
+if ($host.Name -match 'consolehost') {
+    Read-Host -Prompt “Press Enter to exit” 
+}
