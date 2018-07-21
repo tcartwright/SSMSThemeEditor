@@ -91,16 +91,9 @@
     <Content Include="SSMSPkgDefThemes\DarkExtraContrast.pkgdef" />
     <Content Include="SSMSPkgDefThemes\DarkTheme.pkgdef" />
     <Content Include="SSMSPkgDefThemes\DarkWithLightEditor.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\Green.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\GreenShah.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\LightWithDarkEditor.pkgdef" />
     <Content Include="SSMSPkgDefThemes\MaterialDark.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\Purple.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\Red.pkgdef" />
     <Content Include="SSMSPkgDefThemes\SolarizedDark.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\SolarizedLight.pkgdef" />
     <Content Include="SSMSPkgDefThemes\SublimeMaterialDark.pkgdef" />
-    <Content Include="SSMSPkgDefThemes\Tan.pkgdef" />
     <None Include="GitPush.bat" />
     <Content Include="images\screenshot.png" />
     <Content Include="Resources\Blank.png" />
