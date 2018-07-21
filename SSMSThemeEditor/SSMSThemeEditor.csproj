@@ -86,6 +86,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sample Themes\Gruvbox-Sheldonified.vssettings">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SSMSPkgDefThemes\DarkExtraContrast.pkgdef" />
     <Content Include="SSMSPkgDefThemes\DarkTheme.pkgdef" />
     <Content Include="SSMSPkgDefThemes\DarkWithLightEditor.pkgdef" />
@@ -107,13 +110,13 @@
     </Content>
     <Content Include="Resources\SQLSample.html" />
     <Content Include="Sample Themes\Obsidian.DarkScheme.vssettings">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Sample Themes\Solarized.DarkScheme.vssettings">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Sample Themes\VisualStudio.DarkScheme.vssettings">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />
