@@ -1,52 +1,52 @@
 <UserSettings>
-	<ApplicationIdentity version="10.0"/>
-	<ToolsOptions>
-		<ToolsOptionsCategory name="Environment" RegisteredName="Environment"/>
-	</ToolsOptions>
-	<Category name="Environment_Group" RegisteredName="Environment_Group">
-		<Category name="Environment_FontsAndColors" Category="{1EDA5DD4-927A-43a7-810E-7FD247D0DA1D}" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" RegisteredName="Environment_FontsAndColors" PackageName="Visual Studio Environment Package">
-			<PropertyValue name="Version">2</PropertyValue>
-			<FontsAndColors Version="2.0">
-				<Categories>
-					<Category GUID="{A27B4E24-A735-4D1D-B8E7-9716E1E3D8E0}" FontName="Consolas" FontSize="11" CharSet="0" FontIsDefault="No">
-						<Items>
-							<Item Name="Plain Text" Foreground="0x00969483" Background="0x00261E00" BoldFont="No"/>
-							<Item Name="Refactoring Current Field" Foreground="0x00969483" Background="0x00261E00" BoldFont="No"/>
-							<Item Name="Selected Text" Background="0x008C0000" BoldFont="No"/>
-							<Item Name="Number" Foreground="0x0098A12A" BoldFont="No"/>
-							<Item Name="String" Foreground="0x0098A12A" BoldFont="No"/>
-							<Item Name="Identifier" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="Comment" Foreground="0x00867747" BoldFont="No"/>
-							<Item Name="Keyword" Foreground="0x00079A71" BoldFont="No"/>
-							<Item Name="MarkerFormatDefinition/FindHighlight" Background="0x00404000" BoldFont="No"/>
-							<Item Name="Brace Matching (Rectangle)" Background="0x00003264" BoldFont="No"/>
-							<Item Name="Brace Matching (Highlight)" Background="0x00400040" BoldFont="No"/>
-							<Item Name="Indicator Margin" Background="0x00423607" BoldFont="No"/>
-							<Item Name="SQL String" Foreground="0x000000FF" BoldFont="No"/>
-							<Item Name="SQL Operator" Foreground="0x00808080" BoldFont="No"/>
-							<Item Name="SQL System Function" Foreground="0x00FF00FF" BoldFont="No"/>
-							<Item Name="SQL System Table" Foreground="0x00008000" BoldFont="No"/>
-							<Item Name="SQL Stored Procedure" Foreground="0x004080FF" BoldFont="No"/>
-							<Item Name="XML Element Name" Foreground="0x00B18C67" BoldFont="No"/>
-							<Item Name="XML Attribute Name" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="XSLT Keyword" Foreground="0x00D28B26" BoldFont="No"/>
-							<Item Name="XML Attribute Quotes" Foreground="0x00867747" BoldFont="No"/>
-							<Item Name="XML Attribute Value" Foreground="0x0098A12A" BoldFont="No"/>
-							<Item Name="XML Processing Instruction" Foreground="0x00164BCB" BoldFont="No"/>
-							<Item Name="XML CData Section" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="XML Attribute" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="XML CData Section" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="XML Name" Foreground="0x00D28B26" BoldFont="No"/>
-							<Item Name="XML Comment" Foreground="0x00867747" BoldFont="No"/>
-							<Item Name="XML Delimiter" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="XML Text" Foreground="0x00969483" BoldFont="No"/>
-							<Item Name="XML Doc Tag" Foreground="0x00A9A9A9" BoldFont="No"/>
-							<Item Name="XML Doc Comment" Foreground="0x00867747" BoldFont="No"/>
+  <ApplicationIdentity version="10.0"/>
+  <ToolsOptions>
+    <ToolsOptionsCategory name="Environment" RegisteredName="Environment"/>
+  </ToolsOptions>
+  <Category name="Environment_Group" RegisteredName="Environment_Group">
+    <Category name="Environment_FontsAndColors" Category="{1EDA5DD4-927A-43a7-810E-7FD247D0DA1D}" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" RegisteredName="Environment_FontsAndColors" PackageName="Visual Studio Environment Package">
+      <PropertyValue name="Version">2</PropertyValue>
+      <FontsAndColors Version="2.0">
+        <Categories>
+          <Category GUID="{A27B4E24-A735-4D1D-B8E7-9716E1E3D8E0}" FontName="Consolas" FontSize="11" CharSet="0" FontIsDefault="No">
+            <Items>
+              <Item Name="Plain Text" Foreground="0x00969483" Background="0x00261E00" BoldFont="No"/>
+              <Item Name="Refactoring Current Field" Foreground="0x00969483" Background="0x00261E00" BoldFont="No"/>
+              <Item Name="Selected Text" Background="0x008C0000" BoldFont="No"/>
+              <Item Name="Number" Foreground="0x0098A12A" BoldFont="No"/>
+              <Item Name="String" Foreground="0x0098A12A" BoldFont="No"/>
+              <Item Name="Identifier" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="Comment" Foreground="0x00867747" BoldFont="No"/>
+              <Item Name="Keyword" Foreground="0x00079A71" BoldFont="No"/>
+              <Item Name="MarkerFormatDefinition/FindHighlight" Background="0x00404000" BoldFont="No"/>
+              <Item Name="Brace Matching (Rectangle)" Background="0x00003264" BoldFont="No"/>
+              <Item Name="Brace Matching (Highlight)" Background="0x00400040" BoldFont="No"/>
+              <Item Name="Indicator Margin" Background="0x00423607" BoldFont="No"/>
+              <Item Name="SQL String" Foreground="0x000000FF" BoldFont="No"/>
+              <Item Name="SQL Operator" Foreground="0x00808080" BoldFont="No"/>
+              <Item Name="SQL System Function" Foreground="0x00D200D2" BoldFont="No"/>
+              <Item Name="SQL System Table" Foreground="0x00008000" BoldFont="No"/>
+              <Item Name="SQL Stored Procedure" Foreground="0x004080FF" BoldFont="No"/>
+              <Item Name="XML Element Name" Foreground="0x00B18C67" BoldFont="No"/>
+              <Item Name="XML Attribute Name" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="XSLT Keyword" Foreground="0x00D28B26" BoldFont="No"/>
+              <Item Name="XML Attribute Quotes" Foreground="0x00867747" BoldFont="No"/>
+              <Item Name="XML Attribute Value" Foreground="0x0098A12A" BoldFont="No"/>
+              <Item Name="XML Processing Instruction" Foreground="0x00164BCB" BoldFont="No"/>
+              <Item Name="XML CData Section" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="XML Attribute" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="XML CData Section" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="XML Name" Foreground="0x00D28B26" BoldFont="No"/>
+              <Item Name="XML Comment" Foreground="0x00867747" BoldFont="No"/>
+              <Item Name="XML Delimiter" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="XML Text" Foreground="0x00969483" BoldFont="No"/>
+              <Item Name="XML Doc Tag" Foreground="0x00A9A9A9" BoldFont="No"/>
+              <Item Name="XML Doc Comment" Foreground="0x00867747" BoldFont="No"/>
 
-						</Items>
-					</Category>
-				</Categories>
-			</FontsAndColors>
-		</Category>
-	</Category>
+            </Items>
+          </Category>
+        </Categories>
+      </FontsAndColors>
+    </Category>
+  </Category>
 </UserSettings>

@@ -60,11 +60,13 @@ Test-Admin
 $dir = $PSScriptRoot
 Set-Location -Path $dir
 
-#would really prefer to query installed locations of ssms but it is not stored in registry as far as I can find
-Write-Host "Scanning $Env:ProgramFiles\ for ssms.exe"
-$files = Get-ChildItem -Path "$Env:ProgramFiles\" -Filter "ssms.exe" -Recurse
-Write-Host "Scanning ${Env:ProgramFiles(x86)}\ for ssms.exe"
-$files += Get-ChildItem -Path "${Env:ProgramFiles(x86)}\" -Filter "ssms.exe"  -Recurse
+#as close as could be figured out how to dynamically query where the locations of SSMS are. TY to SHull for help
+$files = (Get-ChildItem 'HKLM:\SOFTWARE\Classes\' `
+            | Where-Object { $_.Name -match 'ssms\.sql\.\d+\.\d+' } `
+            | ForEach-Object { 
+                [System.IO.FileInfo]((Get-ItemProperty "$($_.PSPath)\Shell\Open\Command").'(default)' -replace " /dde", "").TrimStart('"').TrimEnd('"') 
+            } `
+            | Where-Object { Test-Path $_.FullName }) 
 
 if ($files.Length -ge 0) {
     $themeFiles = Get-ChildItem -Path "$dir\VS-ColorThemes\VSColorThemes" -Filter *.* -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.csproj" }
