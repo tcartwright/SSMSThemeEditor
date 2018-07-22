@@ -1,7 +1,7 @@
 ﻿Set-StrictMode -Version Latest
 Clear-Host
 
-function NewFolderIfNotExists($folder){
+function CreateFolderIfNotExists($folder){
     if(!(Test-Path -Path $folder -PathType Container)) {
         New-Item -ItemType directory -Path $folder | Out-Null
     }
@@ -58,11 +58,11 @@ function DownLoadThemeFiles($OutputFolder){
 function Test-Admin() {
     ## self elevating code source: https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/
     # Get the ID and security principal of the current user account
-    $winID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
-    $winPrincipal=new-object System.Security.Principal.WindowsPrincipal($winID)
+    $winID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+    $winPrincipal = new-object System.Security.Principal.WindowsPrincipal($winID)
  
     # Get the security principal for the Administrator role
-    $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+    $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
  
     # Check to see if we are currently running "as Administrator"
     if (!($winPrincipal.IsInRole($adminRole))) {
@@ -92,12 +92,12 @@ $ssmsFiles = (Get-ChildItem 'HKLM:\SOFTWARE\Classes\' `
             | ForEach-Object { 
                 [System.IO.FileInfo]((Get-ItemProperty "$($_.PSPath)\Shell\Open\Command").'(default)' -replace " /dde", "").TrimStart('"').TrimEnd('"') 
             } `
-            | Where-Object { Test-Path $_.FullName }) 
+            | Where-Object { ($_.Name -match 'ssms\.exe') -and (Test-Path $_.FullName) }) 
 
-if ($ssmsFiles.Length -ge 0) {
+if ($ssmsFiles -and ($ssmsFiles.Length -gt 0)) {
     #grab a list of local pkgdef files. will be empty if they downloaded the zip.
     $themeFiles = GetThemeFiles -Path "$dir\VS-ColorThemes\VSColorThemes" 
-    if ($themeFiles.Length -eq 0) {
+    if ($themeFiles -and ($themeFiles.Length -eq 0)) {
         #down load the zip of VSColorThemes repo and build it so we can grab their pkgdef files
         DownLoadThemeFiles -OutputFolder "$dir\VS-ColorThemes"
         $themeFiles = GetThemeFiles -Path "$dir\VS-ColorThemes\VSColorThemes" 
@@ -130,14 +130,14 @@ if ($ssmsFiles.Length -ge 0) {
         $themeDir = "$($ssmsFile.DirectoryName)\Extensions\$themeSubFolder"
         Write-Host "Installing theme extension to $($themeDir)";
 
-        NewFolderIfNotExists -folder $themeDir
+        CreateFolderIfNotExists -folder $themeDir
         foreach($themeFile in $themeFiles) {
             Write-Host "Deploying $($themeSubFolder)$($themeFile.Name)"
             Copy-Item -Path $themeFile.FullName -Destination $themeDir -Force | Out-Null
         }
 
         $themesDir = "$($themeDir)Themes\"
-        NewFolderIfNotExists -folder $themesDir
+        CreateFolderIfNotExists -folder $themesDir
         foreach($pkgDefFile in $pkgDefFiles) {
             Write-Host "Deploying $($themeSubFolder)Themes\$($pkgDefFile.Name)"
             Copy-Item -Path $pkgDefFile.FullName -Destination $themesDir -Force | Out-Null
