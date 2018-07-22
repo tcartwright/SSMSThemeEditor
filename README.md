@@ -1,5 +1,9 @@
 # SSMS Theme Editor
 
+## VSColorThemes
+VSColorThemes is a custom exension from Microsoft that was designed to add custom themes for Visual Studio. As SSMS is built on top of the Visual Studio shell they can also be incorporated with the SSMS editor. You can then use the SSMSThemesEditor to fine tune the text font colors for the themes.
+[How Do I install Custom Color Themes for SSMS?](https://github.com/tcartwright/SSMSThemeEditor/wiki/How-Do-I-install-Custom-Color-Themes-for-SSMS%3F)
+
 ## Description:
 The SSMS Theme Editor is a simple and clean theme editor for SSMS (SQL Server Management Studio).  It allows you to load, edit and save theme files in vssettings format. A preview is provided that displays instant feedback as to how the changes will be displayed in SSMS. The settings are trimmed down to what is actually important for SSMS and broken into three categories.
 
