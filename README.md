@@ -14,10 +14,6 @@ More styles can be downloaded from https://studiostyl.es/
 
 ![Example Screenshot](https://raw.githubusercontent.com/tcartwright/SSMSThemeEditor/master/SSMSThemeEditor/images/screenshot.png)
 
-## VSColorThemes
-VSColorThemes is a custom exension from Microsoft that was designed to add custom themes for Visual Studio. As SSMS is built on top of the Visual Studio shell they can also be incorporated with the SSMS editor. You can then use the SSMSThemesEditor to fine tune the text font colors for the themes.
-[How Do I install Custom Color Themes for SSMS?](https://github.com/tcartwright/SSMSThemeEditor/wiki/How-Do-I-install-Custom-Color-Themes-for-SSMS%3F)
-
 ## How to Use:
 
 - New: Starts a new theme, completely blank. 
@@ -35,4 +31,8 @@ Once you are done making any changes to your theme you can then save the theme f
 ## Downloads:
 
 [Latest Release](https://github.com/tcartwright/SSMSThemeEditor/releases/latest) 
+
+## VSColorThemes
+VSColorThemes is a custom exension from Microsoft that was designed to add custom themes for Visual Studio. As SSMS is built on top of the Visual Studio shell they can also be incorporated with the SSMS editor. You can then use the SSMSThemesEditor to fine tune the text font colors for the themes.
+[How Do I install Custom Color Themes for SSMS?](https://github.com/tcartwright/SSMSThemeEditor/wiki/How-Do-I-install-Custom-Color-Themes-for-SSMS%3F)
 
