@@ -1,4 +1,4 @@
-﻿Set-StrictMode -Version 1
+﻿Set-StrictMode -Version Latest
 Clear-Host
 
 function NewFolderIfNotExists($folder){
@@ -99,7 +99,7 @@ if ($ssmsFiles.Length -ge 0) {
     $themeFiles = GetThemeFiles -Path "$dir\VS-ColorThemes\VSColorThemes" 
     if ($themeFiles.Length -eq 0) {
         #down load the zip of VSColorThemes repo and build it so we can grab their pkgdef files
-        DownLoadThemeFiles -OutputFolder "$dir\VS-ColorThemes" | Where-Object { $_.Name -notlike "*.csproj" }
+        DownLoadThemeFiles -OutputFolder "$dir\VS-ColorThemes"
         $themeFiles = GetThemeFiles -Path "$dir\VS-ColorThemes\VSColorThemes" 
     }
 
@@ -108,7 +108,7 @@ if ($ssmsFiles.Length -ge 0) {
     $themeXmlFiles = Get-ChildItem -Path "$dir\VS-ColorThemes\VSColorThemes\Themes" -Filter *.xml -File -ErrorAction SilentlyContinue
 
     #if we dont have the same number of pkgdef files that we do xml files we need to build
-    if ($pkgDefFiles.Length -ne $themeXmlFiles.Length) {
+    if (!($pkgDefFiles) -or $pkgDefFiles.Length -ne $themeXmlFiles.Length) {
         #we must build the project to create the pkgdef files if they do not exist
         $proj = Get-ChildItem -Path "$dir\VS-ColorThemes\VSColorThemes\*.csproj" -File 
         BuildProject -dotNetProject $proj
