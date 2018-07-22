@@ -66,12 +66,13 @@ function Test-Admin() {
  
     # Check to see if we are currently running "as Administrator"
     if (!($winPrincipal.IsInRole($adminRole))) {
-       $process = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-       $process.Arguments = $myInvocation.MyCommand.Definition;
-       # Indicate that the process should be elevated
-       $process.Verb = "runas";
-       [System.Diagnostics.Process]::Start($process);
-       Exit
+        Write-Host "Restarting the powershell script as admin using: '$($script:MyInvocation.MyCommand.Path)'"
+        $process = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+        $process.Arguments = "& '$($script:MyInvocation.MyCommand.Path)'";
+        # Indicate that the process should be elevated
+        $process.Verb = "runas";
+        [System.Diagnostics.Process]::Start($process);
+        Exit
     }
 }
 

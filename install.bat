@@ -3,6 +3,6 @@
 @%~d0
 @cd "%~dp0"
 
-powershell.exe -ExecutionPolicy RemoteSigned -NoLogo -NonInteractive -NoProfile -file "%~dp0install.ps1" -fileName "%~1"
+powershell.exe -ExecutionPolicy RemoteSigned -NoLogo -NonInteractive -NoProfile -file "%~dp0install.ps1" 
 
 @pause
