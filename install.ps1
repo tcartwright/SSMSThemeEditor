@@ -20,9 +20,7 @@ function BuildProject($dotNetProject) {
             Write-Error $result.Message
             exit
         }
-    }
-    catch
-    {
+    } catch {
         throw $result.Message
         if ($host.Name -match 'consolehost') {
             Read-Host -Prompt “Press Enter to exit” 
@@ -56,23 +54,31 @@ function DownLoadThemeFiles($OutputFolder){
 }
 
 function Test-Admin() {
-    ## self elevating code source: https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/
-    # Get the ID and security principal of the current user account
-    $winID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
-    $winPrincipal = new-object System.Security.Principal.WindowsPrincipal($winID)
+    try { 
+        ## self elevating code source: https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/
+        # Get the ID and security principal of the current user account
+        $winID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+        $winPrincipal = new-object System.Security.Principal.WindowsPrincipal($winID)
  
-    # Get the security principal for the Administrator role
-    $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
+        # Get the security principal for the Administrator role
+        $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
  
-    # Check to see if we are currently running "as Administrator"
-    if (!($winPrincipal.IsInRole($adminRole))) {
-        Write-Host "Restarting the powershell script as admin using: '$($script:MyInvocation.MyCommand.Path)'"
-        $process = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-        $process.Arguments = "& '$($script:MyInvocation.MyCommand.Path)'";
-        # Indicate that the process should be elevated
-        $process.Verb = "runas";
-        [System.Diagnostics.Process]::Start($process);
-        Exit
+        # Check to see if we are currently running "as Administrator"
+        if (!($winPrincipal.IsInRole($adminRole))) {
+            Write-Host "Restarting the powershell script as admin using: '$($script:MyInvocation.MyCommand.Path)'"
+            $process = new-object System.Diagnostics.ProcessStartInfo "PowerShell.exe";
+            $process.Arguments = "-ExecutionPolicy Bypass -NoLogo -NoProfile -File `"$($script:MyInvocation.MyCommand.Path)`"";
+            # Indicate that the process should be elevated
+            $process.Verb = "runas";
+            [System.Diagnostics.Process]::Start($process);
+            Exit
+        }
+    } catch {
+        throw $result.Message
+        if ($host.Name -match 'consolehost') {
+            Read-Host -Prompt “Press Enter to exit” 
+        }        
+        exit
     }
 }
 
