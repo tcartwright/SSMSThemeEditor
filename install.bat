@@ -3,5 +3,5 @@
 @%~d0
 @cd "%~dp0"
 
-powershell.exe -ExecutionPolicy Bypass -NoLogo -NoProfile -file "%~dp0install.ps1" 
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NoProfile -file "%~dp0install.ps1"
 

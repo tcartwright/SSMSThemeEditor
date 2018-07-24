@@ -12,20 +12,20 @@ function BuildProject($dotNetProject) {
     {
         if (@(Get-module 'Invoke-MSBuild' -ListAvailable).count -eq 0)
         {
-            install-module 'Invoke-MSBuild' -scope currentuser -confirm:$false
+            Install-Module 'Invoke-MSBuild' -scope currentuser -confirm:$false
         }
         Write-Host "Building VSColorThemes solution"
         $result = Invoke-MSBuild -Path $dotNetProject.FullName -MsBuildParameters "/target:Clean;Build /property:Configuration=Release" -ShowBuildOutputInNewWindow
         if (!($result.BuildSucceeded)) {
             Write-Error $result.Message
-            exit
+            Exit
         }
     } catch {
-        throw $result.Message
+        Write-Error $_.Exception.Message 
         if ($host.Name -match 'consolehost') {
             Read-Host -Prompt “Press Enter to exit” 
         }        
-        exit
+        Exit
     }
 }
 
@@ -53,7 +53,7 @@ function DownLoadThemeFiles($OutputFolder){
     Remove-Item -Path $zipDir -Force -Recurse -ErrorAction SilentlyContinue | Out-Null
 }
 
-function Test-Admin() {
+function Test-Admin([string]$cmd, [string]$cmdArgs) {
     try { 
         ## self elevating code source: https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/
         # Get the ID and security principal of the current user account
@@ -65,20 +65,20 @@ function Test-Admin() {
  
         # Check to see if we are currently running "as Administrator"
         if (!($winPrincipal.IsInRole($adminRole))) {
-            Write-Host "Restarting the powershell script as admin using: '$($script:MyInvocation.MyCommand.Path)'"
-            $process = new-object System.Diagnostics.ProcessStartInfo "PowerShell.exe";
-            $process.Arguments = "-ExecutionPolicy Bypass -NoLogo -NoProfile -File `"$($script:MyInvocation.MyCommand.Path)`"";
+            Write-Host "Restarting the powershell script as admin using: `"$($cmd)`" $cmdArgs"
+            $process = New-Object System.Diagnostics.ProcessStartInfo "powershell.exe";
+            $process.Arguments = "-ExecutionPolicy Bypass -NoLogo -NoProfile -File `"$($cmd)`" $cmdArgs";
             # Indicate that the process should be elevated
             $process.Verb = "runas";
             [System.Diagnostics.Process]::Start($process);
             Exit
         }
     } catch {
-        throw $result.Message
+        Write-Error $_.Exception.Message
         if ($host.Name -match 'consolehost') {
             Read-Host -Prompt “Press Enter to exit” 
         }        
-        exit
+        Exit
     }
 }
 
@@ -86,9 +86,20 @@ function GetThemeFiles([string]$Path){
     return Get-ChildItem -Path $Path -Filter *.* -File -ErrorAction SilentlyContinue | Where-Object { $_.Name -notlike "*.csproj" }
 }
 
-#lets start the process to deploy
-Test-Admin
+Function GetCmdArgsString($cmdArgs){
+    $argString = "";
+    foreach($cmdArg in $cmdArgs) {
+        $val = $cmdArg;
+        if ($val -like '* *') { $val = "`"$val`"" }
+        $argString += "$val "
+    }
+    return $argString
+}
 
+#test the script is running elevated, if not relaunch it
+Test-Admin -cmd $MyInvocation.MyCommand.Definition -cmdArgs (GetCmdArgsString -cmdArgs $args)
+
+#lets start the process to deploy
 $dir = $PSScriptRoot
 Set-Location -Path $dir
 
